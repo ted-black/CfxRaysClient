@@ -107,6 +107,10 @@ export default {
         const selectedChannelId = ref('');
         const editorContent = ref(null);
 
+        /**
+         * Create direct subscriber channel
+         * @param subscriber 
+         */
         const createDirectSubscriberChannel = (subscriber) => {
             if (subscriber.id !== messageProcessor.loggedInSubscriber.id) {
                 messageProcessor.createChannel(
