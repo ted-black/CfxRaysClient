@@ -43,7 +43,7 @@ class MessageProcessor {
 
                 this._channels.forEach((channel) => {
                     if (channel.id === message.channelId) {
-                        if(channel.content === null) {
+                        if (channel.content === null) {
                             channel.content = [];
                         }
                         channel.content.push(channelContent);
@@ -53,6 +53,12 @@ class MessageProcessor {
         }
     }
 
+    /**
+     * Create channel
+     * @param store
+     * @param subscribers
+     * @param loggedInSubscriber
+     */
     createChannel(store, subscribers, loggedInSubscriber) {
         const message = {
             sessionId: loggedInSubscriber.id,
@@ -63,6 +69,12 @@ class MessageProcessor {
         store.send(JSON.stringify(message));
     }
 
+    /**
+     * Send content
+     * @param store
+     * @param content
+     * @param channelId
+     */
     sendContent(store, content, channelId) {
         if (content.trim().length === 0) return;
 

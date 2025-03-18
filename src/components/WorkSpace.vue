@@ -117,27 +117,43 @@ export default {
             }
         };
 
+        /**
+         * Show channel contents
+         * @param channelId
+         */
         const showChannelContents = (channelId) => {
             selectedChannelId.value = channelId;
         };
 
-        const sendContent = (id) => {
-            messageProcessor.sendContent(webSocketStore, editorContent.value.innerText, id);
+        /**
+         * Send channel content
+         * @param channelId
+         */
+        const sendContent = (channelId) => {
+            messageProcessor.sendContent(webSocketStore, editorContent.value.innerText, channelId);
         };
 
-        const getChannelContent = (id) => {
-            const channel = messageProcessor.channels.find((ch) => ch.id === id);
+        /**
+         * Get channel content
+         * @param channelId
+         * @returns {[]|string|DocumentFragment|*|*[]}
+         */
+        const getChannelContent = (channelId) => {
+            const channel = messageProcessor.channels.find((ch) => ch.id === channelId);
             return channel?.content ?? [];
         };
 
+        /**
+         * Return vars and methods
+         */
         return {
+            selectedChannelId,
+            editorContent,
             messageProcessor,
             createDirectSubscriberChannel,
             showChannelContents,
-            selectedChannelId,
             getChannelContent,
-            sendContent,
-            editorContent
+            sendContent
         };
     }
 };
