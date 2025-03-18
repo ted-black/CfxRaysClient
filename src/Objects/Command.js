@@ -3,6 +3,5 @@ export const Command = {
     AddToChannel: 'AddToChannel',
     RemoveFromChannel: 'RemoveFromChannel',
     ListChannels: 'ListChannels',
-    ListSubscribers: 'ListSubscribers',
-    NoCommand: 'NoCommand'
+    ListSessions: 'ListSessions'
 };

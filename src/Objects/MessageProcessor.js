@@ -2,22 +2,10 @@ import { MessageType } from '@/Objects/MessageType.js';
 import { Command } from '@/Objects/Command.js';
 
 /**
- * @typedef {object} MessageProcessor
- * @property {(data : object) => void} processMessage
- * @property {() => []} messageHistory
- * @property {() => []} subscribers
- * @property {() => []} channels
- * @property {() => string} userName
- * @property {() => object} loggedInSubscriber
- * @property {(value) => void} userName
- */
-
-/**
  * Message processor
  */
 class MessageProcessor {
     constructor() {
-        this._messageHistory = [];
         this._subscribers = [];
         this._channels = [];
         this._userName = null;
@@ -26,51 +14,64 @@ class MessageProcessor {
     }
 
     /**
-     * Process message
+     * Process inbound message
      * @param data
      */
-    processMessage(data) {
+    processInboundMessage(data) {
         const message = JSON.parse(data);
         switch (message.type) {
-            case MessageType.MetaData:
+            case MessageType.Command:
                 switch (message.command) {
-                    case Command.ListSubscribers:
-                        this._subscribers = message.subscribers;
-                        this._loggedInSubscriber = message.subscribers.find(
+                    case Command.ListSessions:
+                        this._subscribers = JSON.parse(message.content);
+                        this._loggedInSubscriber = this._subscribers.find(
                             (item) => item.name === this._userName
                         );
                         break;
                     case Command.ListChannels:
-                        this._channels = message.channels;
+                        const channels = JSON.parse(message.content);
+                        for (const channel of channels) {
+                            if (!this._channels.find((c) => c.name === channel.name)) {
+                                this._channels.push(channel);
+                            }
+                        }
                         break;
                 }
                 break;
-            case MessageType.ChannelData:
-                break;
-            case MessageType.Command:
-                switch (message.command) {
-                    case Command.CreateChannel:
-                        break;
-                    case Command.AddToChannel:
-                        break;
-                    case Command.RemoveFromChannel:
-                        break;
-                    case Command.NoCommand:
-                        break;
-                }
-                break;
-            case MessageType.Message:
-                this._messageHistory.push(message);
+            case MessageType.Content:
+                const channelContent = JSON.parse(message.content);
+
+                this._channels.forEach((channel) => {
+                    if (channel.id === message.channelId) {
+                        if(channel.content === null) {
+                            channel.content = [];
+                        }
+                        channel.content.push(channelContent);
+                    }
+                });
                 break;
         }
     }
 
-    /**
-     * Get message history
-     * @returns {[]}
-     */
-    get messageHistory() {
-        return this._messageHistory;
+    createChannel(store, subscribers, loggedInSubscriber) {
+        const message = {
+            sessionId: loggedInSubscriber.id,
+            type: MessageType.Command,
+            command: Command.CreateChannel,
+            content: JSON.stringify(subscribers)
+        };
+        store.send(JSON.stringify(message));
+    }
+
+    sendContent(store, content, channelId) {
+        if (content.trim().length === 0) return;
+
+        const message = {
+            channelId: channelId,
+            type: MessageType.Content,
+            content: content
+        };
+        store.send(JSON.stringify(message));
     }
 
     /**

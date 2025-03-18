@@ -26,7 +26,7 @@ export const useWebSocketStore = defineStore('WebSocketStore', {
                 // Handle incoming messages
                 //
                 const applicationStore = useApplicationStore();
-                applicationStore.messageProcessor.processMessage(event.data);
+                applicationStore.messageProcessor.processInboundMessage(event.data);
             };
 
             this.socket.onclose = () => {
@@ -48,18 +48,6 @@ export const useWebSocketStore = defineStore('WebSocketStore', {
             } else {
                 console.error('WebSocket connection is not open');
             }
-        },
-        /**
-         * Create channel
-         * @param subscribers
-         */
-        createChannel(subscribers) {
-            const message = {
-                type: MessageType.Command,
-                subscribers,
-                command: Command.CreateChannel
-            };
-            this.send(JSON.stringify(message));
         },
         close() {
             if (this.socket) {
