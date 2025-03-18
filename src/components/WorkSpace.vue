@@ -109,7 +109,7 @@ export default {
 
         /**
          * Create direct subscriber channel
-         * @param subscriber 
+         * @param subscriber
          */
         const createDirectSubscriberChannel = (subscriber) => {
             if (subscriber.id !== messageProcessor.loggedInSubscriber.id) {
