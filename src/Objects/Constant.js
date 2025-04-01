@@ -1,3 +1,3 @@
 export const Constant = {
-    WebSocketUrl: 'wss://host.docker.internal:44335'
+    WebSocketUrl: 'wss://localhost:44335'
 };

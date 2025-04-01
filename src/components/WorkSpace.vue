@@ -65,7 +65,7 @@
                     <div class="p-2 h-100 position-relative">
                         <ul class="position-absolute bottom-0">
                             <li v-for="message in getChannelContent(selectedChannelId)">
-                                {{ message }}
+                                {{ message.content }}
                             </li>
                         </ul>
                     </div>
@@ -135,6 +135,7 @@ export default {
          */
         const sendContent = (channelId) => {
             messageProcessor.sendContent(webSocketStore, editorContent.value.innerText, channelId);
+            editorContent.value.innerText = '';
         };
 
         /**

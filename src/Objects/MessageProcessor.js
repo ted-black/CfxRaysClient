@@ -32,6 +32,13 @@ class MessageProcessor {
                         const channels = JSON.parse(message.content);
                         for (const channel of channels) {
                             if (!this._channels.find((c) => c.name === channel.name)) {
+                                let channelContent = [];
+                                for (let i = 0; i < channel.content.length; i++) {
+                                    const content = JSON.parse(channel.content[i]);
+                                    content.content = JSON.parse(content.content);
+                                    channelContent.push(content);
+                                }
+                                channel.content = channelContent;
                                 this._channels.push(channel);
                             }
                         }
@@ -39,14 +46,14 @@ class MessageProcessor {
                 }
                 break;
             case MessageType.Content:
-                const channelContent = JSON.parse(message.content);
+                message.content = JSON.parse(message.content);
 
                 this._channels.forEach((channel) => {
                     if (channel.id === message.channelId) {
                         if (channel.content === null) {
                             channel.content = [];
                         }
-                        channel.content.push(channelContent);
+                        channel.content.push(message);
                     }
                 });
                 break;
