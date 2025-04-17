@@ -7,14 +7,17 @@ import viteBasicSslPlugin from '@vitejs/plugin-basic-ssl'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueDevTools(),
-    viteBasicSslPlugin()
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+    plugins: [
+        vue(),
+        vueDevTools(),
+        viteBasicSslPlugin()
+    ],
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url))
+        }
     },
-  },
+    build: {
+        outDir: './../NodeSamlAuth/public'
+    }
 })

@@ -166,6 +166,6 @@ export default {
 
 <style scoped>
 [contenteditable]:focus {
-    outline: 0px solid transparent;
+    outline: 0 solid transparent;
 }
 </style>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useApplicationStore } from '@/stores/ApplicationStore.js';
-import { Command } from '@/Objects/Command.js';
-import { MessageType } from '@/Objects/MessageType.js';
+import { Command } from '@/objects/Command.js';
+import { MessageType } from '@/objects/MessageType.js';
 
 export const useWebSocketStore = defineStore('WebSocketStore', {
     state: () => ({

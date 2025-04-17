@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { MessageProcessor } from '@/Objects/MessageProcessor.js';
+import { MessageProcessor } from '@/objects/MessageProcessor.js';
 
 export const useApplicationStore = defineStore('ApplicationStore', {
     /**
