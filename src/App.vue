@@ -4,7 +4,7 @@ import WorkSpace from '@/components/WorkSpace.vue';
 import { useWebSocketStore } from '@/stores/WebSocketStore.js';
 import { useApplicationStore } from '@/stores/ApplicationStore.js';
 import { Constant } from '@/objects/Constant.js';
-import apiClient from '@/services/api.js'
+import apiClient from '@/services/api.js';
 
 export default {
     components: { WorkSpace },
@@ -26,12 +26,11 @@ export default {
     },
     mounted() {
         let user;
-        apiClient.get('/config')
-            .then((response) => {
-                user = response.data.user;
-                this.userName = user.nameID;
-                this.login();
-            });
+        apiClient.get('/config').then((response) => {
+            user = response.data.user;
+            this.userName = user.nameID;
+            this.login();
+        });
     }
 };
 </script>
